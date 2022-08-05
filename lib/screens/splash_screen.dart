@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {

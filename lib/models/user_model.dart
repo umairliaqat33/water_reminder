@@ -6,7 +6,6 @@ class UserModel {
   UserModel({required id, required email, required name});
 
   Map<String, dynamic> toMap() {
-
     return{
       'name':name,
       'email':email,
