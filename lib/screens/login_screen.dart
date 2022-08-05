@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:water_reminder/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -236,57 +239,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-// void singIn(String email, String password) async {
-//   if (_formKey.currentState!.validate()) {
-//     try {
-//       await _auth
-//           .signInWithEmailAndPassword(email: email, password: password)
-//           .then((uid) {
-//         Fluttertoast.showToast(msg: "Login Successful");
-//       });
-//       setState(() {
-//         isLoginError = false;
-//       });
-//       Navigator.pushReplacement(context,
-//               MaterialPageRoute(builder: (context) => WelcomeUserScreen()))
-//           .catchError((e) {
-//         Fluttertoast.showToast(msg: e);
-//       });
-//     } catch (e) {
-//       sleep( Duration(seconds: 5));
-//       showSpinner = false;
-//       setState(() {
-//         isLoginError = true;
-//       });
-//       Fluttertoast.showToast(msg: e.toString());
-//     }
-//   } else {
-//     setState(() {
-//       isLoginError = true;
-//     });
-//     showSpinner = false;
-//   }
-// }
-//
-// Future googleSignIn() async {
-//   final googleUser = await _googleSignIn.signIn();
-//   setState(() {
-//     showSpinner = true;
-//   });
-//   if (googleUser == null) return;
-//   _user = googleUser;
-//
-//   final googleAuth = await googleUser.authentication;
-//   final credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth.accessToken,
-//     idToken: googleAuth.idToken,
-//   );
-//
-//   await FirebaseAuth.instance.signInWithCredential(credential);
-//   setState(() {
-//     showSpinner = false;
-//   });
-//   Navigator.pushReplacement(
-//       context, MaterialPageRoute(builder: (context) => WelcomeUserScreen()));
-// }
+void singIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((uid) {
+          Fluttertoast.showToast(msg: "Login Successful");
+        });
+        setState(() {
+          isLoginError = false;
+        });
+        // Navigator.pushReplacement(context,
+        //         MaterialPageRoute(builder: (context) => WelcomeUserScreen()))
+        //     .catchError((e) {
+        //   Fluttertoast.showToast(msg: e);
+        // });
+      } catch (e) {
+        sleep(Duration(seconds: 5));
+        showSpinner = false;
+        setState(() {
+          isLoginError = true;
+        });
+        Fluttertoast.showToast(msg: e.toString());
+      }
+    } else {
+      setState(() {
+        isLoginError = true;
+      });
+      showSpinner = false;
+    }
+  }
 }

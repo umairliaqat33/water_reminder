@@ -3,7 +3,7 @@ class UserModel {
   String? email;
   String? id;
 
-  UserModel({required id, required email, required name});
+  UserModel({this.id, this.email,  this.name});
 
   Map<String, dynamic> toMap() {
     return{
