@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>627764711712-ge3nnvu4l0jucehk0us9urrrqadqs1q9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.627764711712-ge3nnvu4l0jucehk0us9urrrqadqs1q9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAw-OEIKFsXbYAlTEpMSS6So2_ucmjXIy4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>627764711712</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.waterReminder</string>
+	<key>PROJECT_ID</key>
+	<string>water-reminder-de51d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>water-reminder-de51d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:627764711712:ios:62304f532ea5bbe242c745</string>
+</dict>
+</plist>
