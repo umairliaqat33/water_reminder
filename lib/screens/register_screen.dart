@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/models/user_model.dart';
+import 'package:water_reminder/on-boarding/on_boarding_screen.dart';
 
 import 'login_screen.dart';
 
@@ -31,212 +34,137 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffbcebf5),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Visibility(
-                    visible: isLoginError,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        errorMessage,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 15,
+      body: showSpinner
+          ? SpinKitRipple(
+              size: 100,
+              color: Colors.lightBlue,
+            )
+          : Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Visibility(
+                          visible: isLoginError,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              errorMessage,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Name is required";
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.next,
-                    cursorColor: Colors.purpleAccent,
-                    keyboardType: TextInputType.name,
-                    style: TextStyle(color: Colors.black),
-                    controller: name_Controller,
-                    decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.person_outline,
-                        color: Colors.lightBlue,
-                      ),
-                      label: Text(
-                        "Name",
-                        style: TextStyle(color: Colors.lightBlue, fontSize: 20),
-                      ),
-                      // fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 10,
+                        SizedBox(
+                          height: 8.0,
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Name is required";
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
+                          cursorColor: Colors.purpleAccent,
+                          keyboardType: TextInputType.name,
+                          style: TextStyle(color: Colors.black),
+                          controller: name_Controller,
+                          decoration: textFieldDecoration.copyWith(
+                            label: Text(
+                              "Name",
+                              style: TextStyle(
+                                  color: Colors.lightBlue, fontSize: 20),
+                            ),
+                            icon: Icon(
+                              Icons.person_outline,
+                              color: Colors.lightBlue,
+                            ),
+                          ),
                         ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 2,
+                        SizedBox(
+                          height: 8.0,
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Field required";
+                            }
+                            if (!RegExp(
+                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                                .hasMatch(value)) {
+                              return "Enter a valid email";
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.next,
+                          cursorColor: Colors.purple,
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(color: Colors.black),
+                          controller: userNameController,
+                          decoration: textFieldDecoration.copyWith(
+                            label: Text(
+                              "Email",
+                              style: TextStyle(
+                                  color: Colors.lightBlue, fontSize: 20),
+                            ),
+                            icon: Icon(
+                              Icons.email_outlined,
+                              color: Colors.lightBlue,
+                            ),
+                          ),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 2,
+                        SizedBox(
+                          height: 8.0,
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                        TextFormField(
+                          validator: (value) {
+                            RegExp regex = new RegExp(r"^.{8,}$");
+                            if (value!.isEmpty) {
+                              return "Field is required";
+                            }
+                            if (!regex.hasMatch(value)) {
+                              return "Password must contain 8 characters minimum";
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          cursorColor: Colors.purple,
+                          obscureText: _passwordVisible,
+                          style: TextStyle(color: Colors.black),
+                          controller: passController,
+                          decoration: textFieldDecoration.copyWith(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
+                            icon: Icon(
+                              Icons.password,
+                              color: Colors.lightBlue,
+                            ),
+                            label: Text(
+                              "Password",
+                              style: TextStyle(
+                                  color: Colors.lightBlue, fontSize: 20),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Field required";
-                      }
-                      if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                          .hasMatch(value)) {
-                        return "Enter a valid email";
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.next,
-                    cursorColor: Colors.purple,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(color: Colors.black),
-                    controller: userNameController,
-                    decoration: InputDecoration(
-                      icon: Icon(
-                        Icons.email_outlined,
-                        color: Colors.lightBlue,
-                      ),
-                      label: Text(
-                        "Email",
-                        style: TextStyle(color: Colors.lightBlue, fontSize: 20),
-                      ),
-                      // fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 10,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      RegExp regex = new RegExp(r"^.{8,}$");
-                      if (value!.isEmpty) {
-                        return "Field is required";
-                      }
-                      if (!regex.hasMatch(value)) {
-                        return "Password must contain 8 characters minimum";
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.done,
-                    cursorColor: Colors.purple,
-                    obscureText: _passwordVisible,
-                    style: TextStyle(color: Colors.black),
-                    controller: passController,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _passwordVisible
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
-                          color: Colors.lightBlue,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _passwordVisible = !_passwordVisible;
-                          });
-                        },
-                      ),
-                      icon: Icon(
-                        Icons.password,
-                        color: Colors.lightBlue,
-                      ),
-                      label: Text(
-                        "Password",
-                        style: TextStyle(color: Colors.lightBlue, fontSize: 20),
-                      ),
-                      // fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 10,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.lightBlue,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 8.0,
                   ),
@@ -255,56 +183,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       obscureText: _passwordVisible,
                       style: TextStyle(color: Colors.black),
                       controller: C_pass_controller,
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.password,
-                          color: Colors.lightBlue,
+                          decoration: textFieldDecoration.copyWith(
+                            icon: Icon(
+                              Icons.password,
+                              color: Colors.lightBlue,
+                            ),
+                            label: Text(
+                              "Confirm Password",
+                              style: TextStyle(
+                                  color: Colors.lightBlue, fontSize: 20),
+                            ),
+                          ),
                         ),
-                        label: Text(
-                          "Confirm Password",
-                          style:
-                              TextStyle(color: Colors.lightBlue, fontSize: 20),
+                        SizedBox(
+                          height: 8.0,
                         ),
-                        // fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Material(
                             color: Colors.lightBlue,
-                            width: 10,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.lightBlue,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      )),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Material(
-                      color: Colors.lightBlue,
-                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () {
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
+                            elevation: 5.0,
+                            child: MaterialButton(
+                              onPressed: () {
                           SignUp(userNameController.text, passController.text);
                           FocusManager.instance.primaryFocus?.unfocus();
                         },
@@ -386,13 +288,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       userModel.email = user!.email;
       userModel.id = user.uid;
       await firebaseFirestore
-          .collection('Users')
+          .collection('user')
           .doc(user.uid)
           .set(userModel.toMap());
 
       Fluttertoast.showToast(msg: "Account Created Successfully");
-      // Navigator.pushReplacement(context,
-      //     MaterialPageRoute(builder: (context) => WelcomeUserScreen()));
+      setState(() {
+        showSpinner = false;
+      });
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => OnBoardingScreen()));
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }

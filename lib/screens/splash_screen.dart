@@ -41,7 +41,7 @@ void initState() {
           waveColor: Colors.lightBlueAccent,
           boxBackgroundColor: Color(0xffbcebf5),
           textStyle: TextStyle(
-            fontSize: 55,
+            fontSize: 45,
             fontWeight: FontWeight.bold,
           ),
         ),

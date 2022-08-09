@@ -41,6 +41,8 @@ dependencies:
   fluttertoast: ^8.0.9
   animated_text_kit: ^4.2.2
   shared_preferences: ^2.0.15
+  flutter_spinkit: ^5.1.0
+
 
 dev_dependencies:
   flutter_test:
