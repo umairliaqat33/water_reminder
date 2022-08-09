@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:water_reminder/screens/home_screen.dart';
+import 'package:water_reminder/screens/login_screen.dart';
 import 'package:water_reminder/screens/settings_screen.dart';
 
 class ShifterScreen extends StatelessWidget {
@@ -28,8 +29,9 @@ class ShifterScreen extends StatelessWidget {
             IconButton(
               onPressed: () async {
                 FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
               },
-              icon: Icon(Icons.logout),
+              icon: Icon(Icons.logout,color: Colors.lightBlue,),
             ),
           ],
           bottom: TabBar(

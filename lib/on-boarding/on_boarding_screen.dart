@@ -1,7 +1,11 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:water_reminder/models/constants.dart';
+import 'package:water_reminder/models/data_model.dart';
 import 'package:water_reminder/screens/screen_shifter.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -13,12 +17,43 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final weightController = TextEditingController();
+  final sleepTimeController = TextEditingController(text: "--:-- --");
+  final wakeTimeController = TextEditingController(text: "--:-- --");
   final pageController = PageController();
   String radioValue = "Male";
-  TimeOfDay time = TimeOfDay.now();
-  final sleepTimeController = TextEditingController(text: "9:00 PM");
-  final wakeTimeController = TextEditingController(text: "9:00 AM");
+  TimeOfDay sleepTime = TimeOfDay.now();
+  TimeOfDay wakeTime = TimeOfDay.now();
   final _weightFormKey = GlobalKey<FormState>();
+  User? user;
+
+  postUserDetailsToFireStore(String gender, int weight, TimeOfDay sleepTime,
+      TimeOfDay wakeTime) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    WeightModel weightModel = WeightModel();
+    weightModel.gender = gender;
+    weightModel.weight = weight;
+    weightModel.sleepTime = sleepTime.format(context).toString();
+    weightModel.wakeTime = wakeTime.format(context).toString();
+
+    try {
+      await firebaseFirestore
+          .collection('user')
+          .doc(user?.uid)
+          .collection('user-info')
+          .doc()
+          .set(weightModel.toMap());
+      Fluttertoast.showToast(msg: "Data Added Successfully");
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: "Something Went Wrong");
+    }
+  }
+
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,19 +258,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         }
                         return null;
                       },
+                      controller: sleepTimeController,
                       cursorColor: Colors.purple,
                       readOnly: true,
                       textInputAction: TextInputAction.done,
-                      controller: sleepTimeController,
                       decoration: textFieldDecoration.copyWith(
                         suffixIcon: IconButton(
                             onPressed: () async {
                               TimeOfDay? newTime = await showTimePicker(
-                                  context: context, initialTime: time);
+                                  context: context, initialTime: sleepTime);
                               if (newTime == null) return;
                               setState(() {
-                                time = newTime;
-                                sleepTimeController.text = time.format(context);
+                                sleepTime = newTime;
+                                sleepTimeController.text=newTime.format(context).toString();
                               });
                             },
                             icon: Icon(Icons.timer)),
@@ -253,18 +288,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         return null;
                       },
                       cursorColor: Colors.purple,
+                      controller: wakeTimeController,
                       readOnly: true,
                       textInputAction: TextInputAction.done,
-                      controller: wakeTimeController,
                       decoration: textFieldDecoration.copyWith(
                         suffixIcon: IconButton(
                             onPressed: () async {
                               TimeOfDay? newTime = await showTimePicker(
-                                  context: context, initialTime: time);
+                                  context: context, initialTime: wakeTime);
                               if (newTime == null) return;
                               setState(() {
-                                wakeTimeController.text =
-                                    newTime.format(context);
+                                wakeTime = newTime;
+                                wakeTimeController.text=newTime.format(context).toString();
                               });
                             },
                             icon: Icon(Icons.timer)),
@@ -279,11 +314,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
+                          print(radioValue+weightController.text+sleepTime.toString()+wakeTime.toString());
+                          postUserDetailsToFireStore(
+                              radioValue,
+                              int.parse(weightController.text),
+                              sleepTime,
+                              wakeTime);
+                          print("Button Pressed");
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ShifterScreen()));
-                          FocusManager.instance.primaryFocus?.unfocus();
                         },
                         minWidth: 135.0,
                         height: 42.0,
