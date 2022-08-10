@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/screens/register_screen.dart';
+import 'package:water_reminder/screens/screen_shifter.dart';
 
 import '../on-boarding/on_boarding_screen.dart';
 
@@ -52,6 +54,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
+                          Center(
+                            heightFactor: 3,
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                fontSize: 60,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                           Visibility(
                             visible: isLoginError,
                             child: Text(
@@ -80,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: emailController,
                             decoration: textFieldDecoration.copyWith(
                               icon: Icon(
-                                Icons.email_sharp,
+                                Icons.email_outlined,
                                 color: Colors.lightBlue,
                               ),
                               label: Text(
@@ -123,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                               icon: Icon(
-                                Icons.email_sharp,
+                                Icons.password_outlined,
                                 color: Colors.lightBlue,
                               ),
                               label: Text(
@@ -205,8 +218,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
           Fluttertoast.showToast(msg: "Login Successful");
         });
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+        User? user;
+        String dataPresent = "";
+        user = FirebaseAuth.instance.currentUser;
+        FirebaseFirestore.instance
+            .collection('user')
+            .doc(user!.uid)
+            .collection('user-info')
+            .doc()
+            .snapshots()
+            .isEmpty
+            .then((value) {
+          dataPresent = value.toString();
+          print(dataPresent);
+        });
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => dataPresent == "false"
+                    ? ShifterScreen()
+                    : OnBoardingScreen()));
       } catch (e) {
         sleep(Duration(seconds: 5));
         showSpinner = false;

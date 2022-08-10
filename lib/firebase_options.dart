@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '627764711712',
     projectId: 'water-reminder-de51d',
     storageBucket: 'water-reminder-de51d.appspot.com',
-    iosClientId: '627764711712-ge3nnvu4l0jucehk0us9urrrqadqs1q9.apps.googleusercontent.com',
+    iosClientId:
+        '627764711712-ge3nnvu4l0jucehk0us9urrrqadqs1q9.apps.googleusercontent.com',
     iosBundleId: 'com.example.waterReminder',
   );
 }

@@ -270,7 +270,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               if (newTime == null) return;
                               setState(() {
                                 sleepTime = newTime;
-                                sleepTimeController.text=newTime.format(context).toString();
+                                sleepTimeController.text =
+                                    newTime.format(context).toString();
                               });
                             },
                             icon: Icon(Icons.timer)),
@@ -299,7 +300,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               if (newTime == null) return;
                               setState(() {
                                 wakeTime = newTime;
-                                wakeTimeController.text=newTime.format(context).toString();
+                                wakeTimeController.text =
+                                    newTime.format(context).toString();
                               });
                             },
                             icon: Icon(Icons.timer)),
@@ -314,7 +316,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                          print(radioValue+weightController.text+sleepTime.toString()+wakeTime.toString());
+                          print(radioValue +
+                              weightController.text +
+                              sleepTime.toString() +
+                              wakeTime.toString());
                           postUserDetailsToFireStore(
                               radioValue,
                               int.parse(weightController.text),

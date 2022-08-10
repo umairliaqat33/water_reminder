@@ -49,6 +49,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+                        Center(
+                          heightFactor: 2,
+                          child: Text(
+                            "Register",
+                            style: TextStyle(
+                              fontSize: 60,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         Visibility(
                           visible: isLoginError,
                           child: Align(
@@ -165,24 +176,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                         ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field is required";
-                        }
-                        if (value != passController.text) {
-                          return "Password do not match try again";
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.done,
-                      cursorColor: Colors.purple,
-                      obscureText: _passwordVisible,
-                      style: TextStyle(color: Colors.black),
-                      controller: C_pass_controller,
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Field is required";
+                            }
+                            if (value != passController.text) {
+                              return "Password do not match try again";
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          cursorColor: Colors.purple,
+                          obscureText: _passwordVisible,
+                          style: TextStyle(color: Colors.black),
+                          controller: C_pass_controller,
                           decoration: textFieldDecoration.copyWith(
                             icon: Icon(
                               Icons.password,
@@ -207,69 +218,70 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             elevation: 5.0,
                             child: MaterialButton(
                               onPressed: () {
-                          SignUp(userNameController.text, passController.text);
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        splashColor: null,
-                        minWidth: 200.0,
-                        height: 42.0,
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white),
+                                SignUp(userNameController.text,
+                                    passController.text);
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              splashColor: null,
+                              minWidth: 200.0,
+                              height: 42.0,
+                              child: Text(
+                                'Register',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Already have an account? '),
+                            TextButton(
+                              style: ButtonStyle(
+                                  splashFactory: NoSplash
+                                      .splashFactory //removing onclick splash color
+                                  ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginScreen()));
+                              },
+                              child: Text("LogIn"),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Already have an account? '),
-                      TextButton(
-                        style: ButtonStyle(
-                            splashFactory: NoSplash
-                                .splashFactory //removing onclick splash color
-                            ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },
-                        child: Text("LogIn"),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
   void SignUp(String email, String password) async {
-      if (_formKey.currentState!.validate()) {
-        setState(() {
-          showSpinner = true;
-        });
-        sleep(const Duration(seconds: 5));
-        await _auth
-            .createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) {
-          postDetailsToFireStore();
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        showSpinner = true;
+      });
+      sleep(const Duration(seconds: 5));
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        postDetailsToFireStore();
       }).catchError((e) {
-          if (e.toString() ==
-              "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
-            setState(() {
-              errorMessage = "Email already in use";
-            });
-          }
+        if (e.toString() ==
+            "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
           setState(() {
-            showSpinner = false;
+            errorMessage = "Email already in use";
           });
-          setState(() {
-            isLoginError = true;
+        }
+        setState(() {
+          showSpinner = false;
+        });
+        setState(() {
+          isLoginError = true;
         });
       });
     } else {

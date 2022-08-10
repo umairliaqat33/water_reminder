@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const textFieldDecoration=InputDecoration(
+const textFieldDecoration = InputDecoration(
   icon: null,
   label: null,
   // fillColor: Colors.white,

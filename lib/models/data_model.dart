@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class WeightModel {
   String? gender;
   int? weight;
@@ -25,7 +23,5 @@ class WeightModel {
         wakeTime: map['waketime']);
   }
 
-  postUserDetailsToFirebase(){
-
-  }
+  postUserDetailsToFirebase() {}
 }
