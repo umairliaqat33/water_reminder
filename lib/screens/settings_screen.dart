@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         });
       });
     } catch (e) {
-      print(e);
+      log(e.toString());
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -165,6 +167,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Field is required";
+                        }
+                        if(value=="0"){
+                          return "Weight can not be 0";
+                        }if(value=="1"){
+                          return "Weight can not be 1";
                         }
                         return null;
                       },
@@ -270,17 +277,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                          print(radioValue! +
-                              weightController.text +
-                              sleepTime.toString() +
-                              wakeTime.toString());
-                          update(radioValue!, int.parse(weightController.text),
-                              sleepTime, wakeTime, context);
-                          print("Button Pressed");
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ShifterScreen()));
+                          if(_formKey.currentState!.validate()){
+                            update(radioValue!, int.parse(weightController.text),
+                                sleepTime, wakeTime, context);
+                          }
                         },
                         minWidth: 135.0,
                         height: 42.0,

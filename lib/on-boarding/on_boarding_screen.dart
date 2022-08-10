@@ -44,7 +44,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           .set(weightModel.toMap());
       Fluttertoast.showToast(msg: "Data Added Successfully");
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       Fluttertoast.showToast(msg: "Something Went Wrong");
     }
   }
@@ -176,6 +176,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Field is required";
+                          } if(value=="0"){
+                            return "Weight can not be 0";
                           }
                           return null;
                         },
@@ -316,20 +318,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                          print(radioValue +
-                              weightController.text +
-                              sleepTime.toString() +
-                              wakeTime.toString());
-                          postUserDetailsToFireStore(
-                              radioValue,
-                              int.parse(weightController.text),
-                              sleepTime,
-                              wakeTime);
-                          print("Button Pressed");
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ShifterScreen()));
+                          if(_weightFormKey.currentState!.validate()){
+                            postUserDetailsToFireStore(
+                                radioValue,
+                                int.parse(weightController.text),
+                                sleepTime,
+                                wakeTime);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShifterScreen()));
+                          }
                         },
                         minWidth: 135.0,
                         height: 42.0,

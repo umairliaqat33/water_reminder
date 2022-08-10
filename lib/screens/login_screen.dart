@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/screens/register_screen.dart';
-import 'package:water_reminder/screens/screen_shifter.dart';
+import 'package:water_reminder/screens/splash_screen.dart';
 
-import '../on-boarding/on_boarding_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -218,26 +216,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
           Fluttertoast.showToast(msg: "Login Successful");
         });
-        User? user;
-        String dataPresent = "";
-        user = FirebaseAuth.instance.currentUser;
-        FirebaseFirestore.instance
-            .collection('user')
-            .doc(user!.uid)
-            .collection('user-info')
-            .doc()
-            .snapshots()
-            .isEmpty
-            .then((value) {
-          dataPresent = value.toString();
-          print(dataPresent);
-        });
+
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => dataPresent == "false"
-                    ? ShifterScreen()
-                    : OnBoardingScreen()));
+                builder: (context) => SplashScreen()));
       } catch (e) {
         sleep(Duration(seconds: 5));
         showSpinner = false;

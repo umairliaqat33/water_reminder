@@ -35,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
         .isEmpty
         .then((value) {
       dataPresent = value.toString();
-      print(dataPresent);
     });
     _navigator();
     super.initState();
