@@ -2,7 +2,7 @@
     package="com.example.water_reminder">
 
     <application
-        android:name="${Water Reminder}"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="water_reminder">
         <activity

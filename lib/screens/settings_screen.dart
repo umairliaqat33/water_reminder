@@ -84,6 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffC6DFE8),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
@@ -211,7 +212,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         return null;
                       },
                       controller: sleepTimeController,
-                      cursorColor: Colors.purple,
                       readOnly: true,
                       textInputAction: TextInputAction.done,
                       decoration: textFieldDecoration.copyWith(
@@ -249,7 +249,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }
                         return null;
                       },
-                      cursorColor: Colors.purple,
                       controller: wakeTimeController,
                       readOnly: true,
                       textInputAction: TextInputAction.done,

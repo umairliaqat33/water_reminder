@@ -18,14 +18,12 @@ class _ShifterScreenState extends State<ShifterScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          elevation: 20,
           flexibleSpace: Container(
-            color: Color(0xff65cee6),
+            color: Color(0xffC6DFE8),
           ),
-          title: Text("Water Reminder"),
+          title: Center(child: Text(index==0?"Home":"Settings")),
           actions: [
             IconButton(
               onPressed: () async {
@@ -38,8 +36,11 @@ class _ShifterScreenState extends State<ShifterScreen> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Color(0xff65cee6),
+            backgroundColor: Color(0xff4FA8C5),
             selectedItemColor: Colors.white,
+            selectedIconTheme: IconThemeData(
+              size: 40,
+            ),
             currentIndex: index,
             onTap: (i) {
               setState(() {
