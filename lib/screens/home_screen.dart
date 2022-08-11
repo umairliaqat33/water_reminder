@@ -312,9 +312,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text("Cancel")),
                   TextButton(
                       onPressed: () {
-                        try{
-                          DateTime dt=DateTime.now();
-                          final format=DateTime(dt.year,dt.month,dt.day,timeToDrink.hour,timeToDrink.minute);
+                        try {
+                          DateTime dt = DateTime.now();
+                          final format = DateTime(dt.year, dt.month, dt.day,
+                              timeToDrink.hour, timeToDrink.minute);
                           WaterModel waterModel = WaterModel();
                           waterModel.time = Timestamp.fromDate(format);
                           waterModel.millLiters =
@@ -330,8 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           quantityController.clear();
                           Fluttertoast.showToast(msg: "Addition Successful");
                           Navigator.of(context).pop();
-
-                        }catch(e){
+                        } catch (e) {
                           Fluttertoast.showToast(msg: e.toString());
                           print(e);
                         }

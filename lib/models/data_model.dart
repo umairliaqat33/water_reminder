@@ -22,5 +22,4 @@ class WeightModel {
         sleepTime: map['sleeptime'],
         wakeTime: map['waketime']);
   }
-
 }

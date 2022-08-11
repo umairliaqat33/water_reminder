@@ -8,7 +8,6 @@ import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/screens/register_screen.dart';
 import 'package:water_reminder/screens/splash_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
 
@@ -218,9 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
 
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SplashScreen()));
+            context, MaterialPageRoute(builder: (context) => SplashScreen()));
       } catch (e) {
         sleep(Duration(seconds: 5));
         showSpinner = false;

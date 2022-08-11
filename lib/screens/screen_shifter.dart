@@ -23,7 +23,7 @@ class _ShifterScreenState extends State<ShifterScreen> {
           flexibleSpace: Container(
             color: Color(0xffC6DFE8),
           ),
-          title: Center(child: Text(index==0?"Home":"Settings")),
+          title: Center(child: Text(index == 0 ? "Home" : "Settings")),
           actions: [
             IconButton(
               onPressed: () async {

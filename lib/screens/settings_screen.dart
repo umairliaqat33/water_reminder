@@ -277,9 +277,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                          if(_formKey.currentState!.validate()){
-                            update(radioValue!, int.parse(weightController.text),
-                                sleepTime, wakeTime, context);
+                          if (_formKey.currentState!.validate()) {
+                            update(
+                                radioValue!,
+                                int.parse(weightController.text),
+                                sleepTime,
+                                wakeTime,
+                                context);
                           }
                         },
                         minWidth: 135.0,
