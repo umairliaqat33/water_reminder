@@ -11,7 +11,7 @@ class ShifterScreen extends StatefulWidget {
 
 class _ShifterScreenState extends State<ShifterScreen> {
   int index = 0;
-  final screens = [HomeScreen(), SettingsScreen()];
+  List<dynamic> screens = [HomeScreen(), SettingsScreen()];
 
   @override
   Widget build(BuildContext context) {

@@ -176,8 +176,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Field is required";
-                          } if(value=="0"){
+                          }
+                          if (value == "0") {
                             return "Weight can not be 0";
+                          }
+                          if (value == "1") {
+                            return "Weight can not be 1";
                           }
                           return null;
                         },
@@ -318,7 +322,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                          if(_weightFormKey.currentState!.validate()){
+                          if (_weightFormKey.currentState!.validate()) {
                             postUserDetailsToFireStore(
                                 radioValue,
                                 int.parse(weightController.text),

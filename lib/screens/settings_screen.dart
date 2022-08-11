@@ -169,9 +169,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         if (value!.isEmpty) {
                           return "Field is required";
                         }
-                        if(value=="0"){
+                        if (value == "0") {
                           return "Weight can not be 0";
-                        }if(value=="1"){
+                        }
+                        if (value == "1") {
                           return "Weight can not be 1";
                         }
                         return null;
