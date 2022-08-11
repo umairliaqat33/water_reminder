@@ -23,5 +23,4 @@ class WeightModel {
         wakeTime: map['waketime']);
   }
 
-  postUserDetailsToFirebase() {}
 }
