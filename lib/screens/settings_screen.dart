@@ -54,7 +54,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           .snapshots()
           .listen((event) {
         event.docs.forEach((data) {
-          setState(() {
             radioValue = data.get('gender');
             final format = DateFormat.jm();
             sleepTime =
@@ -65,7 +64,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             wakeTimeController.text = wakeTime.format(context).toString();
             sleepTimeController.text = sleepTime.format(context).toString();
             weightController.text = data.get("weight").toString();
-          });
         });
       });
     } catch (e) {
