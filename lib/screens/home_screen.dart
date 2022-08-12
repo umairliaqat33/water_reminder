@@ -41,11 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('user')
-            .doc(user!.uid)
+            .doc(user?.uid)
             .collection('user-info')
             .snapshots(),
-        builder: (context, snapshot) {
-          weight = snapshot.data?.docs.first.get('weight');
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff4FA8C5)),
+              ),
+            );
+          }
+          weight = snapshot.data!.docs.first.get('weight');
           idealIntake = (weight * 0.033 * 1000);
           print(idealIntake);
           return Scaffold(
@@ -315,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           FirebaseFirestore.instance
                               .collection('user')
-                              .doc(user!.uid)
+                              .doc(user?.uid)
                               .collection('water-model')
                               .doc()
                               .set(waterModel.toMap());
