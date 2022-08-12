@@ -54,16 +54,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           .snapshots()
           .listen((event) {
         event.docs.forEach((data) {
-            radioValue = data.get('gender');
-            final format = DateFormat.jm();
-            sleepTime =
-                TimeOfDay.fromDateTime(format.parse(data.get('sleeptime')));
-            id = data.id;
-            wakeTime =
-                TimeOfDay.fromDateTime(format.parse(data.get('waketime')));
-            wakeTimeController.text = wakeTime.format(context).toString();
-            sleepTimeController.text = sleepTime.format(context).toString();
-            weightController.text = data.get("weight").toString();
+          radioValue = data.get('gender');
+          final format = DateFormat.jm();
+          sleepTime =
+              TimeOfDay.fromDateTime(format.parse(data.get('sleeptime')));
+          id = data.id;
+          wakeTime = TimeOfDay.fromDateTime(format.parse(data.get('waketime')));
+          wakeTimeController.text = wakeTime.format(context).toString();
+          sleepTimeController.text = sleepTime.format(context).toString();
+          weightController.text = data.get("weight").toString();
         });
       });
     } catch (e) {
