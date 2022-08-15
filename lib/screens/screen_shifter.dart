@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:water_reminder/screens/home_screen.dart';
 import 'package:water_reminder/screens/login_screen.dart';
 import 'package:water_reminder/screens/settings_screen.dart';
@@ -30,6 +31,7 @@ class _ShifterScreenState extends State<ShifterScreen> {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
+                Fluttertoast.showToast(msg: "Logout Successful");
               },
               icon: Icon(Icons.logout),
             ),
