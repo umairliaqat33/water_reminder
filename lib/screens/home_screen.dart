@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:water_reminder/models/water_model.dart';
 import 'package:water_reminder/widgets/list_screen.dart';
 import 'package:water_reminder/widgets/water_container.dart';
 
@@ -93,10 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 5,
                   ),
                   Align(
-                    alignment: Alignment.center,
+                      alignment: Alignment.center,
                       child: Text(
-                    "You Drinked",
-                  )),
+                        "You Drank",
+                      )),
                   SizedBox(
                     height: 10,
                   ),
@@ -110,6 +107,4 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         });
   }
-
-
 }

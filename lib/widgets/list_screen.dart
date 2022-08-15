@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:water_reminder/widgets/delete_alert_dialogue.dart';
 
 class ListScreenWidget extends StatefulWidget {
   const ListScreenWidget({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class ListScreenWidget extends StatefulWidget {
 
 class _ListScreenWidgetState extends State<ListScreenWidget> {
   User? user;
+
+  delete(String id) {}
 
   @override
   void initState() {
@@ -37,6 +40,9 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
               ),
             );
           }
+          if (snapshot.data!.docs.isEmpty) {
+            return Center(child: Text("Nothing to show"));
+          }
           final data = snapshot.data;
           return SingleChildScrollView(
             child: Column(
@@ -60,7 +66,9 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     FaIcon(
                                       FontAwesomeIcons.glassWater,
@@ -73,7 +81,57 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
                                         "${data.docs[index].get('millLiters')} ml"),
                                   ],
                                 ),
-                                Text("$formattedTime"),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text("$formattedTime"),
+                                    PopupMenuButton(
+                                      elevation: 10,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(25))),
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              splashFactory:
+                                                  NoSplash.splashFactory,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              deleteAlertDialogue(
+                                                  context,
+                                                  data.docs[index].id,
+                                                  user!.uid);
+                                            },
+                                            child: Text(
+                                              "Delete",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        PopupMenuItem(
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              splashFactory:
+                                                  NoSplash.splashFactory,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              "Edit",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),

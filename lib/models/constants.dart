@@ -33,8 +33,6 @@ const textFieldDecoration = InputDecoration(
   ),
 );
 
-
-
 /*For Later Use*/
 //  addAlertDialogue(BuildContext context, double intake) {
 //     return showDialog(

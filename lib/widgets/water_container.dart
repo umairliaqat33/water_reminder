@@ -37,6 +37,7 @@ class _WaterContainerState extends State<WaterContainer> {
       print(e);
     }
   }
+
   User? user;
 
   double idealIntake = 0;
@@ -45,8 +46,7 @@ class _WaterContainerState extends State<WaterContainer> {
 
   getSizes() {
     idealIntake = (widget.weight * 0.033 * 1000);
-    intakePercentage = ((length * 100) / idealIntake)*100;
-    print(intakePercentage);
+    intakePercentage = ((length * 100) / idealIntake) * 100;
   }
 
   @override
@@ -100,7 +100,8 @@ class _WaterContainerState extends State<WaterContainer> {
                         ),
                       ),
                       Container(
-                        height: (MediaQuery.of(context).size.height *(intakePercentage/410)),
+                        height: (MediaQuery.of(context).size.height *
+                            (intakePercentage / 410)),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
@@ -134,7 +135,7 @@ class _WaterContainerState extends State<WaterContainer> {
                       Row(
                         children: [
                           Text(
-                            "${length*100}",
+                            "${length * 100}",
                             style: TextStyle(
                               color: Color(0xff4FA8C5),
                               fontSize: 38,

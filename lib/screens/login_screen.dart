@@ -72,7 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {

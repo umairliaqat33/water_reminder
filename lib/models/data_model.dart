@@ -3,8 +3,14 @@ class WeightModel {
   int? weight;
   String? sleepTime;
   String? wakeTime;
+  int? waterIntakeGoal;
 
-  WeightModel({this.gender, this.weight, this.sleepTime, this.wakeTime});
+  WeightModel(
+      {this.gender,
+      this.weight,
+      this.sleepTime,
+      this.wakeTime,
+      this.waterIntakeGoal});
 
   Map<String, dynamic> toMap() {
     return {
@@ -12,6 +18,7 @@ class WeightModel {
       'weight': weight,
       'sleeptime': sleepTime,
       'waketime': wakeTime,
+      'waterIntakeGoal': waterIntakeGoal,
     };
   }
 
@@ -20,6 +27,7 @@ class WeightModel {
         gender: map['gender'],
         weight: map['weight'],
         sleepTime: map['sleeptime'],
-        wakeTime: map['waketime']);
+        wakeTime: map['waketime'],
+        waterIntakeGoal: map['waterIntakeGoal']);
   }
 }

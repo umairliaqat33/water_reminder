@@ -19,6 +19,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final weightController = TextEditingController();
   final sleepTimeController = TextEditingController(text: "--:-- --");
   final wakeTimeController = TextEditingController(text: "--:-- --");
+  final waterIntakeGoalController = TextEditingController();
   final pageController = PageController();
   String radioValue = "Male";
   TimeOfDay sleepTime = TimeOfDay.now();
@@ -29,33 +30,33 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   User? user;
 
   postUserDetailsToFireStore(String gender, int weight, TimeOfDay sleepTime,
-      TimeOfDay wakeTime) async {
+      TimeOfDay wakeTime, int waterIntake) async {
     try {
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-        WeightModel weightModel = WeightModel();
-        weightModel.gender = gender;
-        weightModel.weight = weight;
-        weightModel.sleepTime = sleepTime.format(context).toString();
-        weightModel.wakeTime = wakeTime.format(context).toString();
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      WeightModel weightModel = WeightModel();
+      weightModel.gender = gender;
+      weightModel.weight = weight;
+      weightModel.sleepTime = sleepTime.format(context).toString();
+      weightModel.wakeTime = wakeTime.format(context).toString();
+      weightModel.waterIntakeGoal = waterIntake;
 
-        await firebaseFirestore
-            .collection('user')
-            .doc(user?.uid)
-            .collection('user-info')
-            .doc()
-            .set(weightModel.toMap());
-        Fluttertoast.showToast(msg: "Data Added Successfully");
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ShifterScreen()));
-      } catch (e) {
-        log(e.toString());
-        setState(() {
-          errorMessage=true;
-        });
-        print(e);
-        Fluttertoast.showToast(msg: "Something Went Wrong");
-      }
-
+      await firebaseFirestore
+          .collection('user')
+          .doc(user?.uid)
+          .collection('user-info')
+          .doc()
+          .set(weightModel.toMap());
+      Fluttertoast.showToast(msg: "Data Added Successfully");
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ShifterScreen()));
+    } catch (e) {
+      log(e.toString());
+      setState(() {
+        errorMessage = true;
+      });
+      print(e);
+      Fluttertoast.showToast(msg: "Something Went Wrong");
+    }
   }
 
   @override
@@ -115,8 +116,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         Text(
                           "Male",
-                          style: TextStyle(
-                              color: Colors.lightBlue, fontSize: 20),
+                          style:
+                              TextStyle(color: Colors.lightBlue, fontSize: 20),
                         ),
                       ],
                     ),
@@ -137,8 +138,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                         Text(
                           "Female",
-                          style: TextStyle(
-                              color: Colors.lightBlue, fontSize: 20),
+                          style:
+                              TextStyle(color: Colors.lightBlue, fontSize: 20),
                         ),
                       ],
                     ),
@@ -260,6 +261,94 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    Center(
+                      child: Text(
+                        "Water Intake Goal",
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.lightBlue),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Field is required";
+                        }
+                        if (int.parse(value) < 10) {
+                          return "Please enter a valid Goal in milliliters";
+                        }
+                        return null;
+                      },
+                      cursorColor: Colors.purple,
+                      textInputAction: TextInputAction.done,
+                      controller: waterIntakeGoalController,
+                      decoration: textFieldDecoration.copyWith(
+                        suffix: Text(
+                          "ml",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        label: Text("Water Intake Goal"),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Material(
+                          color: Colors.lightBlue,
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              pageController.previousPage(
+                                  duration: Duration(seconds: 2),
+                                  curve: Curves.fastLinearToSlowEaseIn);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            minWidth: 135.0,
+                            height: 42.0,
+                            child: Text(
+                              'Previous',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Material(
+                          color: Colors.lightBlue,
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          elevation: 5.0,
+                          child: MaterialButton(
+                            onPressed: () {
+                              pageController.nextPage(
+                                  duration: Duration(seconds: 2),
+                                  curve: Curves.fastLinearToSlowEaseIn);
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            minWidth: 135.0,
+                            height: 42.0,
+                            child: Text(
+                              'Next',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                     Visibility(
                       visible: errorMessage,
                       child: Text(
@@ -338,11 +427,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       elevation: 5.0,
                       child: MaterialButton(
                         onPressed: () {
-                            postUserDetailsToFireStore(
-                                radioValue,
-                                int.parse(weightController.text),
-                                sleepTime,
-                                wakeTime);
+                          postUserDetailsToFireStore(
+                              radioValue,
+                              int.parse(weightController.text),
+                              sleepTime,
+                              wakeTime,
+                              int.parse(waterIntakeGoalController.text));
                         },
                         minWidth: 135.0,
                         height: 42.0,
