@@ -19,24 +19,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   User? user;
-  String dataPresent = " ";
+  bool dataPresent = false;
   String? uid;
 
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
     uid = user?.uid;
-    dataPresent = FirebaseFirestore.instance
-        .collection('user')
-        .doc(uid)
-        .collection('user-info')
-        .doc()
-        .id;
+    // dataPresent = FirebaseFirestore.instance
+    //     .collection('user')
+    //     .doc(uid)
+    //     .collection('user-info')
+    //     .doc()
+    //     .id;
     //     .snapshots()
     //     .isEmpty
     //     .then((value) {
     //   dataPresent = value.toString();
     // });
+    FirebaseFirestore.instance.collection('user').doc(uid).collection('user-info').snapshots().first.then((value){
+      dataPresent=value.docs.isEmpty;
+    });
     _navigator();
     super.initState();
   }
@@ -49,9 +52,9 @@ class _SplashScreenState extends State<SplashScreen> {
           MaterialPageRoute(
               builder: (context) => user == null
                   ? LoginScreen()
-                  : dataPresent == " "
-                      ? ShifterScreen()
-                      : OnBoardingScreen()));
+                  : dataPresent
+                      ? OnBoardingScreen()
+                      : ShifterScreen()));
     });
   }
 
