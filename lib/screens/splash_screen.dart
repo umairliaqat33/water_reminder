@@ -26,19 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     user = FirebaseAuth.instance.currentUser;
     uid = user?.uid;
-    // dataPresent = FirebaseFirestore.instance
-    //     .collection('user')
-    //     .doc(uid)
-    //     .collection('user-info')
-    //     .doc()
-    //     .id;
-    //     .snapshots()
-    //     .isEmpty
-    //     .then((value) {
-    //   dataPresent = value.toString();
-    // });
-    FirebaseFirestore.instance.collection('user').doc(uid).collection('user-info').snapshots().first.then((value){
-      dataPresent=value.docs.isEmpty;
+    FirebaseFirestore.instance
+        .collection('user')
+        .doc(uid)
+        .collection('user-info')
+        .snapshots()
+        .first
+        .then((value) {
+      dataPresent = value.docs.isEmpty;
     });
     _navigator();
     super.initState();

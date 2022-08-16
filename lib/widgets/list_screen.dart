@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:water_reminder/models/water_model.dart';
 import 'package:water_reminder/widgets/delete_alert_dialogue.dart';
 
 class ListScreenWidget extends StatefulWidget {
@@ -14,6 +15,7 @@ class ListScreenWidget extends StatefulWidget {
 
 class _ListScreenWidgetState extends State<ListScreenWidget> {
   User? user;
+  TimeOfDay time=TimeOfDay.now();
 
   delete(String id) {}
 
@@ -118,7 +120,15 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
                                               splashFactory:
                                                   NoSplash.splashFactory,
                                             ),
-                                            onPressed: () {
+                                            onPressed: () async{
+                                              TimeOfDay? newTime = await showTimePicker(
+                                                  context: context, initialTime: time);
+                                              if (newTime == null) return;
+                                              setState(() {
+                                                time = newTime;
+                                              });
+                                              update(time, data.docs[index].id);
+
                                               Navigator.of(context).pop();
                                             },
                                             child: Text(
@@ -142,5 +152,14 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
             ),
           );
         });
+  }
+
+  update(TimeOfDay timeOfDay,String id){
+    DateTime d=DateTime.now();
+    DateTime dateTime=DateTime(d.year,d.month,d.day,timeOfDay.hour,timeOfDay.minute);
+    WaterModel waterModel=WaterModel();
+    waterModel.millLiters=100;
+    waterModel.time=Timestamp.fromDate(dateTime);
+    FirebaseFirestore.instance.collection('user').doc(user!.uid).collection('water-model').doc(id).update(waterModel.toMap());
   }
 }
