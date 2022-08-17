@@ -10,7 +10,7 @@ This app helps user maintain his daily water intake and make sure that he drinks
 
 ## Functionalities
 This app have some major functionalities as give below
-1. List of Water you drank accrding to time sorted.
+1. List of Water you drank according to time sorted.
 2. A container showing how much water have drank.
 3. A ratio telling you about your intake goal and how much have you drank.
 4. A percentage telling how much percentage have you covered.
