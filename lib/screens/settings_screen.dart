@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/models/data_model.dart';
+import 'package:water_reminder/screens/reminder_scheduler.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({Key? key}) : super(key: key);
@@ -309,7 +310,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ReminderScheduler(wakeTime,sleepTime)));
+                              },
+                              child: Text(
+                                "Schedule Reminders",
+                              )),
+                          SizedBox(
+                            height: 5,
                           ),
                           Material(
                             color: Colors.lightBlue,

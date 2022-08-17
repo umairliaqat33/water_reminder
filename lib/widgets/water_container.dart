@@ -7,9 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../models/water_model.dart';
 
 class WaterContainer extends StatefulWidget {
-  int weight;
+  final int weight;
+  final int intakeGoal;
 
-  WaterContainer(this.weight);
+  WaterContainer(this.weight,this.intakeGoal);
 
   @override
   State<WaterContainer> createState() => _WaterContainerState();
@@ -18,12 +19,9 @@ class WaterContainer extends StatefulWidget {
 class _WaterContainerState extends State<WaterContainer> {
   postWaterDetails() {
     try {
-      // DateTime dt = DateTime.now();
-      // final format = DateTime(dt.year, dt.month, dt.day,
-      //     timeToDrink.hour, timeToDrink.minute);
       WaterModel waterModel = WaterModel();
       waterModel.time = Timestamp.fromDate(DateTime.now());
-      waterModel.millLiters = 100;
+      waterModel.millLiters = 200;
 
       FirebaseFirestore.instance
           .collection('user')
@@ -45,8 +43,7 @@ class _WaterContainerState extends State<WaterContainer> {
   int length = 0;
 
   getSizes() {
-    idealIntake = (widget.weight * 0.033 * 1000);
-    intakePercentage = ((length * 100) / idealIntake) * 100;
+    intakePercentage = ((length * 100) / widget.intakeGoal) * 100;
   }
 
   @override
@@ -126,7 +123,7 @@ class _WaterContainerState extends State<WaterContainer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "100 ml",
+                        "200 ml",
                         style: TextStyle(
                           color: Color(0xff393939),
                           fontSize: 20,
@@ -135,7 +132,7 @@ class _WaterContainerState extends State<WaterContainer> {
                       Row(
                         children: [
                           Text(
-                            "${length * 100}",
+                            "${length * 200}",
                             style: TextStyle(
                               color: Color(0xff4FA8C5),
                               fontSize: 38,
@@ -143,7 +140,7 @@ class _WaterContainerState extends State<WaterContainer> {
                             ),
                           ),
                           Text(
-                            "/${idealIntake.toStringAsFixed(0)}",
+                            "/${widget.intakeGoal}",
                             style: TextStyle(
                               color: Color(0xff393939),
                               fontSize: 38,
@@ -177,7 +174,11 @@ class _WaterContainerState extends State<WaterContainer> {
                             elevation: 5.0,
                             child: MaterialButton(
                               onPressed: () {
-                                postWaterDetails();
+                                if(length*100!=widget.intakeGoal){
+                                  postWaterDetails();
+                                }else{
+                                  Fluttertoast.showToast(msg: 'You have completed your goal');
+                                }
                               },
                               minWidth: 200.0,
                               height: 42.0,

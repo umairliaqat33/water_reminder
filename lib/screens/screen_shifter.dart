@@ -22,7 +22,7 @@ class _ShifterScreenState extends State<ShifterScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
-            color: Color(0xffC6DFE8),
+            color: Color(0xff4FA8C5),
           ),
           title: Center(child: Text(index == 0 ? "Home" : "Settings")),
           actions: [

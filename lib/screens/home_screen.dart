@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int weight = 0;
   double idealIntake = 0;
+  int goal=0;
 
   User? user;
   TimeOfDay timeToDrink = TimeOfDay.now();
@@ -48,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
+          goal=snapshot.data!.docs.first.get('waterIntakeGoal');
           weight = snapshot.data!.docs.first.get('weight');
           idealIntake = (weight * 0.033 * 1000);
           return Scaffold(
@@ -85,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  WaterContainer(weight),
+                  WaterContainer(weight,goal),
                   SizedBox(
                     height: 5,
                   ),
