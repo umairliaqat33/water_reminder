@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:water_reminder/widgets/reminder_delete_dialogue.dart';
 import 'package:water_reminder/widgets/switch.dart';
 
 import '../widgets/add_alert_dialogue.dart';
@@ -89,13 +90,7 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
                                       data.docs[index].get('time')),
                                   IconButton(
                                       onPressed: () {
-                                        FirebaseFirestore.instance
-                                            .collection('user')
-                                            .doc(user!.uid)
-                                            .collection('reminder')
-                                            .doc(data.docs[index].id)
-                                            .delete();
-                                        Fluttertoast.showToast(msg: 'Reminder Deleted');
+                                        reminderDeleteAlertDialogue(context, data.docs[index].id, user!.uid);
                                       },
                                       icon:
                                           FaIcon(FontAwesomeIcons.circleXmark))
