@@ -32,7 +32,7 @@ Application will be giving you some reminders and notification even if the appli
 
 ######Watch a video to understand flow of app.
 
-[![Watch the video]](https://www.youtube.com/watch?v=Rr890cZD4Xs)
+[comment]: <> ([![Watch the video]]&#40;https://www.youtube.com/watch?v=Rr890cZD4Xs&#41;)
 
 
 
