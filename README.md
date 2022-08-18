@@ -4,7 +4,7 @@ daily water intake.
 
 ### User Flow Diagram
 
-![](image/user_flow_diagram.png)
+![](images/user_flow_diagram.png)
 
 ### Use Cases
 In this app you can
