@@ -20,7 +20,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(backGroundHandler);
-  LocalNotificationService.initialize();
+  // LocalNotificationService.initialize();
   runApp(MyHomePage());
 }
 
@@ -35,36 +35,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage().then((message){
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SplashScreen(),
-        ),
-      );
-      print(message!.data['route']);
-    });
-
-
-    FirebaseMessaging.onMessage.listen((message) {
-      log(message.notification!.body.toString());
-      log(message.notification!.title.toString());
-
-      LocalNotificationService.display(message);
-    });
-
-    ///When app is in background and user taps on notification
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      LocalNotificationService.display(message);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SplashScreen(),
-        ),
-      );
-      print(message.data['route']);
-
-    });
+  //   FirebaseMessaging.instance.getInitialMessage().then((message){
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => SplashScreen(),
+  //       ),
+  //     );
+  //     print(message!.data['route']);
+  //   });
+  //
+  //
+  //   FirebaseMessaging.onMessage.listen((message) {
+  //     log(message.notification!.body.toString());
+  //     log(message.notification!.title.toString());
+  //
+  //     LocalNotificationService.display(message);
+  //   });
+  //
+  //   ///When app is in background and user taps on notification
+  //   FirebaseMessaging.onMessageOpenedApp.listen((message) {
+  //     LocalNotificationService.display(message);
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => SplashScreen(),
+  //       ),
+  //     );
+  //     print(message.data['route']);
+  //
+  //   });
   }
 
   @override

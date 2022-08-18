@@ -43,7 +43,7 @@ class _WaterContainerState extends State<WaterContainer> {
   int length = 0;
 
   getSizes() {
-    intakePercentage = ((length * 100) / widget.intakeGoal) * 100;
+    intakePercentage = ((length * 200) / widget.intakeGoal) * 100;
   }
 
   @override
@@ -174,7 +174,7 @@ class _WaterContainerState extends State<WaterContainer> {
                             elevation: 5.0,
                             child: MaterialButton(
                               onPressed: () {
-                                if(length*100!=widget.intakeGoal){
+                                if(length*200<widget.intakeGoal){
                                   postWaterDetails();
                                 }else{
                                   Fluttertoast.showToast(msg: 'You have completed your goal');
