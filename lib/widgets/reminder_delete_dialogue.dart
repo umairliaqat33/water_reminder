@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 reminderDeleteAlertDialogue(BuildContext context, String id, String uid) {
@@ -17,8 +17,8 @@ reminderDeleteAlertDialogue(BuildContext context, String id, String uid) {
                 Text(
                   "Are you sure you want to delete?",
                   style: TextStyle(
-                    // fontWeight: FontWeight.bold,
-                  ),
+                      // fontWeight: FontWeight.bold,
+                      ),
                 ),
                 SizedBox(
                   height: 10,

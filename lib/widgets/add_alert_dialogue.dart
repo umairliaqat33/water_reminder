@@ -1,7 +1,7 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -55,7 +55,7 @@ addAlertDialogue(
                         TimeOfDay? newTime = await showTimePicker(
                             context: context, initialTime: TimeOfDay.now());
                         if (newTime == null) return;
-                        setState((){
+                        setState(() {
                           time = newTime;
                         });
                       },

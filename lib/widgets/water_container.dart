@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,7 +11,7 @@ class WaterContainer extends StatefulWidget {
   final int weight;
   final int intakeGoal;
 
-  WaterContainer(this.weight,this.intakeGoal);
+  WaterContainer(this.weight, this.intakeGoal);
 
   @override
   State<WaterContainer> createState() => _WaterContainerState();
@@ -174,10 +175,11 @@ class _WaterContainerState extends State<WaterContainer> {
                             elevation: 5.0,
                             child: MaterialButton(
                               onPressed: () {
-                                if(length*200<widget.intakeGoal){
+                                if (length * 200 < widget.intakeGoal) {
                                   postWaterDetails();
-                                }else{
-                                  Fluttertoast.showToast(msg: 'You have completed your goal');
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'You have completed your goal');
                                 }
                               },
                               minWidth: 200.0,

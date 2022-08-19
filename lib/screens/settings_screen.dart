@@ -327,7 +327,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => ReminderScheduler(wakeTime,sleepTime)));
+                                    builder: (context) => ReminderScheduler(
+                                        wakeTime, sleepTime)));
                               },
                               child: Text(
                                 "Schedule Reminders",

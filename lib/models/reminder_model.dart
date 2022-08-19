@@ -4,13 +4,13 @@ class ReminderModel {
   Timestamp? timestamp;
   bool? onOff;
 
-  ReminderModel({this.timestamp,this.onOff});
+  ReminderModel({this.timestamp, this.onOff});
 
   Map<String, dynamic> toMap() {
-    return {'time': timestamp,'onOff':onOff};
+    return {'time': timestamp, 'onOff': onOff};
   }
 
   factory ReminderModel.fromMap(map) {
-    return ReminderModel(timestamp: map['time'],onOff: map['onOff']);
+    return ReminderModel(timestamp: map['time'], onOff: map['onOff']);
   }
 }

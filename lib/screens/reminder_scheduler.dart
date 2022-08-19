@@ -25,19 +25,20 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
   User? user;
   bool on = false;
 
-
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
     NotificationLogic.init(context);
     listenNotifications();
   }
-  void listenNotifications(){
-    NotificationLogic.onNotifications.listen((value) { });
-  }
-  void onClickedNotification(String? payload){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ShifterScreen()));
 
+  void listenNotifications() {
+    NotificationLogic.onNotifications.listen((value) {});
+  }
+
+  void onClickedNotification(String? payload) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => ShifterScreen()));
   }
 
   @override
@@ -81,8 +82,12 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
                       t.microsecondsSinceEpoch);
                   String formattedTime = DateFormat.jm().format(date);
                   on = data!.docs[index].get('onOff');
-                  if(on){
-                    NotificationLogic.showNotification(dateTime: date,id: 0,title: 'Water Reminder',body: "Don\'t forget to drink water");
+                  if (on) {
+                    NotificationLogic.showNotification(
+                        dateTime: date,
+                        id: 0,
+                        title: 'Water Reminder',
+                        body: "Don\'t forget to drink water");
                   }
                   return SingleChildScrollView(
                     child: Column(
@@ -104,7 +109,8 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
                                       data.docs[index].get('time')),
                                   IconButton(
                                       onPressed: () {
-                                        reminderDeleteAlertDialogue(context, data.docs[index].id, user!.uid);
+                                        reminderDeleteAlertDialogue(context,
+                                            data.docs[index].id, user!.uid);
                                       },
                                       icon:
                                           FaIcon(FontAwesomeIcons.circleXmark))
