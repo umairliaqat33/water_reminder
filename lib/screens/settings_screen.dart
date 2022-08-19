@@ -116,7 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   Row(
                                     children: [
                                       Radio(
-                                        value: 'Male',
+                                        value: 'Magit push',
                                         groupValue: radioValue,
                                         onChanged: (value) {
                                           setState(() {
