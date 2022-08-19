@@ -1,44 +1,54 @@
-import 'dart:developer';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class LocalNotificationService {
-  static final FlutterLocalNotificationsPlugin _notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-  static void initialize() {
-    final InitializationSettings initializationSettings =
+import '../screens/screen_shifter.dart';
 
 
+class NotificationLogic {
+  static final _notifications = FlutterLocalNotificationsPlugin();
+  static final onNotifications = BehaviorSubject<String?>();
 
-
-
-    InitializationSettings(
-        android: AndroidInitializationSettings(
-            "@mipmap/ic_launcher")); //icon in notification
-
-    _notificationsPlugin.initialize(initializationSettings);
+  static Future _notificationDetails() async {
+    return NotificationDetails(
+      android: AndroidNotificationDetails(
+          'Water Reminder',
+          'Don\'t forget to drink water',
+          importance: Importance.max,
+          priority: Priority.max
+      ),
+    );
   }
 
-  static void display(RemoteMessage message) async {
-    try {
+  static Future init(BuildContext context) async {
+    tz.initializeTimeZones();
+    final android = AndroidInitializationSettings('img_3');
+    final settings = InitializationSettings(android: android);
+    await _notifications.initialize(settings, onSelectNotification: (payload) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ShifterScreen()));
+      onNotifications.add(payload);
+    });
+  }
 
-      final id = DateTime
-          .now()
-          .millisecondsSinceEpoch ~/ 1000;
 
-      final NotificationDetails notificationDetails = NotificationDetails(
-          android: AndroidNotificationDetails(
-            "Water Reminder", "Water Reminder channel",
-            importance: Importance.max, priority: Priority.high,));
-
-      await _notificationsPlugin.show(
-          id, message.notification!.title, message.notification!.body,
-          notificationDetails);
-
-    } on Exception catch (e) {
-      log(e.toString());
+  static Future showNotification({
+    int id = 0,
+    String? title,
+    String? body,
+    String? payload,
+    required DateTime dateTime,
+  }) async {
+    if(dateTime.isBefore(DateTime.now())){
+      dateTime=dateTime.add(Duration(days: 1));
     }
+    _notifications.zonedSchedule(
+      id, title, body, tz.TZDateTime.from(dateTime, tz.local),
+      await _notificationDetails(),
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+          .absoluteTime, androidAllowWhileIdle: true,);
   }
 }

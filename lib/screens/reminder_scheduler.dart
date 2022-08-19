@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:water_reminder/screens/screen_shifter.dart';
+import 'package:water_reminder/services/local_notification_services.dart';
 import 'package:water_reminder/widgets/reminder_delete_dialogue.dart';
 import 'package:water_reminder/widgets/switch.dart';
 
@@ -23,10 +25,19 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
   User? user;
   bool on = false;
 
-  @override
+
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
+    NotificationLogic.init(context);
+    listenNotifications();
+  }
+  void listenNotifications(){
+    NotificationLogic.onNotifications.listen((value) { });
+  }
+  void onClickedNotification(String? payload){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ShifterScreen()));
+
   }
 
   @override
@@ -70,6 +81,9 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
                       t.microsecondsSinceEpoch);
                   String formattedTime = DateFormat.jm().format(date);
                   on = data!.docs[index].get('onOff');
+                  if(on){
+                    NotificationLogic.showNotification(dateTime: date,id: 0,title: 'Water Reminder',body: "Don\'t forget to drink water");
+                  }
                   return SingleChildScrollView(
                     child: Column(
                       children: [

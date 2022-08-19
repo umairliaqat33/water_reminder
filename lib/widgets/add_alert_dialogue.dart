@@ -47,29 +47,37 @@ addAlertDialogue(
                 SizedBox(
                   height: 20,
                 ),
-                MaterialButton(
-                  onPressed: () async {
-                    TimeOfDay? newTime = await showTimePicker(
-                        context: context, initialTime: TimeOfDay.now());
-                    if (newTime == null) return;
-                    time = newTime;
+                StatefulBuilder(
+                  builder: (BuildContext context,
+                      void Function(void Function()) setState) {
+                    return MaterialButton(
+                      onPressed: () async {
+                        TimeOfDay? newTime = await showTimePicker(
+                            context: context, initialTime: TimeOfDay.now());
+                        if (newTime == null) return;
+                        setState((){
+                          time = newTime;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.clock,
+                            color: Colors.lightBlue,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            time.format(context).toString(),
+                            style: TextStyle(
+                                color: Colors.lightBlue, fontSize: 30),
+                          ),
+                        ],
+                      ),
+                    );
                   },
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.clock,
-                        color: Colors.lightBlue,
-                        size: 40,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        time.format(context).toString(),
-                        style: TextStyle(color: Colors.lightBlue, fontSize: 30),
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),

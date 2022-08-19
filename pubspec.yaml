@@ -45,6 +45,8 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   firebase_messaging: ^12.0.2
   flutter_local_notifications: ^9.7.1
+  rxdart: ^0.27.5
+  timezone: ^0.8.0
 
 
 dev_dependencies:

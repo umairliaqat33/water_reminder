@@ -81,6 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               snapshot.data!.docs.first.get("weight").toString();
           intakeController.text =
               snapshot.data!.docs.first.get('waterIntakeGoal').toString();
+          print("state reloaded");
           return Scaffold(
             backgroundColor: Color(0xffC6DFE8),
             body: SingleChildScrollView(
@@ -107,47 +108,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            children: [
-                              Radio(
-                                value: 'Male',
-                                groupValue: radioValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    radioValue = value.toString();
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Male",
-                                style: TextStyle(
-                                    color: Colors.lightBlue, fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Radio(
-                                value: 'Female',
-                                groupValue: radioValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    radioValue = value.toString();
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Female",
-                                style: TextStyle(
-                                    color: Colors.lightBlue, fontSize: 20),
-                              ),
-                            ],
+                          StatefulBuilder(
+                            builder: (BuildContext context,
+                                void Function(void Function()) setState) {
+                              return Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Radio(
+                                        value: 'Male',
+                                        groupValue: radioValue,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            radioValue = value.toString();
+                                          });
+                                        },
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Male",
+                                        style: TextStyle(
+                                            color: Colors.lightBlue,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Radio(
+                                        value: 'Female',
+                                        groupValue: radioValue,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            radioValue = value.toString();
+                                          });
+                                        },
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Female",
+                                        style: TextStyle(
+                                            color: Colors.lightBlue,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           SizedBox(
                             height: 10,
