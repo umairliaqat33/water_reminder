@@ -51,7 +51,7 @@ personal data
 
 ######Watch a video to understand flow of app.
 
-[![Watch the video]](https://www.youtube.com/watch?v=wup0bLUartA)
+[![Watch the video](images/img_3.png)](https://www.youtube.com/watch?v=b9J4NIoJTQM)
 
 
 
