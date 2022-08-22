@@ -68,7 +68,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             );
           }
-          radioValue = snapshot.data!.docs.first.get('gender');
           final format = DateFormat.jm();
           sleepTime = TimeOfDay.fromDateTime(
               format.parse(snapshot.data!.docs.first.get('sleeptime')));
@@ -76,6 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           wakeTime = TimeOfDay.fromDateTime(
               format.parse(snapshot.data!.docs.first.get('waketime')));
           wakeTimeController.text = wakeTime.format(context).toString();
+          radioValue = snapshot.data!.docs.first.get('gender');
           sleepTimeController.text = sleepTime.format(context).toString();
           weightController.text =
               snapshot.data!.docs.first.get("weight").toString();
@@ -116,7 +116,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   Row(
                                     children: [
                                       Radio(
-                                        value: 'Magit push',
+                                        value: 'Male',
                                         groupValue: radioValue,
                                         onChanged: (value) {
                                           setState(() {
@@ -326,7 +326,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(
                                     builder: (context) => ReminderScheduler(
                                         wakeTime, sleepTime)));
                               },

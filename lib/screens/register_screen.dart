@@ -242,7 +242,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       .splashFactory //removing onclick splash color
                                   ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LoginScreen()));

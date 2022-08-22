@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   splashFactory: NoSplash.splashFactory,
                                 ),
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>

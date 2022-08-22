@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 const textFieldDecoration = InputDecoration(
   icon: null,
   label: null,
-  // fillColor: Colors.white,
   border: OutlineInputBorder(
     borderSide: BorderSide(
       color: Colors.lightBlue,
