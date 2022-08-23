@@ -23,7 +23,7 @@ class ReminderScheduler extends StatefulWidget {
 
 class _ReminderSchedulerState extends State<ReminderScheduler> {
   User? user;
-  bool on = false;
+  bool on = true;
 
   void initState() {
     super.initState();

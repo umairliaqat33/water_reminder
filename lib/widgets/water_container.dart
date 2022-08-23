@@ -56,6 +56,10 @@ class _WaterContainerState extends State<WaterContainer> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    print(height);
+    print(width);
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('user')
@@ -73,8 +77,8 @@ class _WaterContainerState extends State<WaterContainer> {
           length = (snapshot.data!.docs.length);
           getSizes();
           return Container(
-            height: 237,
-            width: 321,
+            height: height*0.3,
+            width: width,
             decoration: BoxDecoration(
               color: Color(0xffF1F7F9),
               borderRadius: BorderRadius.all(Radius.circular(10)),

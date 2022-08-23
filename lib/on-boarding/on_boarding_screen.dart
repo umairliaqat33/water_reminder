@@ -1,10 +1,9 @@
 import 'dart:developer';
-import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/models/data_model.dart';
 import 'package:water_reminder/screens/screen_shifter.dart';
@@ -31,7 +30,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   User? user;
 
   postUserDetailsToFireStore(String gender, int weight, TimeOfDay sleepTime,
-      TimeOfDay wakeTime, int waterIntake) async {
+      TimeOfDay wakeTime) async {
     try {
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
       WeightModel weightModel = WeightModel();
@@ -39,7 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       weightModel.weight = weight;
       weightModel.sleepTime = sleepTime.format(context).toString();
       weightModel.wakeTime = wakeTime.format(context).toString();
-      weightModel.waterIntakeGoal = waterIntake;
+      weightModel.waterIntakeGoal = ((weight * 0.033) * 1000).toInt();
 
       await firebaseFirestore
           .collection('user')
@@ -194,6 +193,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           return null;
                         },
                         cursorColor: Colors.purple,
+                        keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.done,
                         controller: weightController,
                         decoration: textFieldDecoration.copyWith(
@@ -245,94 +245,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                     curve: Curves.fastLinearToSlowEaseIn);
                                 FocusManager.instance.primaryFocus?.unfocus();
                               }
-                            },
-                            minWidth: 135.0,
-                            height: 42.0,
-                            child: Text(
-                              'Next',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Water Intake Goal",
-                        style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.lightBlue),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field is required";
-                        }
-                        if (int.parse(value) < 10) {
-                          return "Please enter a valid Goal in milliliters";
-                        }
-                        return null;
-                      },
-                      cursorColor: Colors.purple,
-                      textInputAction: TextInputAction.done,
-                      controller: waterIntakeGoalController,
-                      decoration: textFieldDecoration.copyWith(
-                        suffix: Text(
-                          "ml",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        label: Text("Water Intake Goal"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Material(
-                          color: Colors.lightBlue,
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          elevation: 5.0,
-                          child: MaterialButton(
-                            onPressed: () {
-                              pageController.previousPage(
-                                  duration: Duration(seconds: 2),
-                                  curve: Curves.fastLinearToSlowEaseIn);
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            minWidth: 135.0,
-                            height: 42.0,
-                            child: Text(
-                              'Previous',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Material(
-                          color: Colors.lightBlue,
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          elevation: 5.0,
-                          child: MaterialButton(
-                            onPressed: () {
-                              pageController.nextPage(
-                                  duration: Duration(seconds: 2),
-                                  curve: Curves.fastLinearToSlowEaseIn);
-                              FocusManager.instance.primaryFocus?.unfocus();
                             },
                             minWidth: 135.0,
                             height: 42.0,
@@ -432,8 +344,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               radioValue,
                               int.parse(weightController.text),
                               sleepTime,
-                              wakeTime,
-                              int.parse(waterIntakeGoalController.text));
+                              wakeTime);
                         },
                         minWidth: 135.0,
                         height: 42.0,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/screens/register_screen.dart';
+import 'package:water_reminder/screens/screen_shifter.dart';
 import 'package:water_reminder/screens/splash_screen.dart';
+
+import '../on-boarding/on_boarding_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -216,12 +220,10 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             isLoginError = false;
           });
-
+          validate();
           Fluttertoast.showToast(msg: "Login Successful");
         });
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => SplashScreen()));
       } catch (e) {
         sleep(Duration(seconds: 5));
         showSpinner = false;
@@ -236,5 +238,27 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       showSpinner = false;
     }
+  }
+
+  void validate()async{
+    bool dataPresent = false;
+    User? user=FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .collection('user-info')
+        .snapshots()
+        .first
+        .then((value) {
+      dataPresent = value.docs.isEmpty;
+    });
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => user == null
+                ? LoginScreen()
+                : dataPresent
+                ? OnBoardingScreen()
+                : ShifterScreen()));
   }
 }
