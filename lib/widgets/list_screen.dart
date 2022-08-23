@@ -94,8 +94,10 @@ class _ListScreenWidgetState extends State<ListScreenWidget> {
                                     PopupMenuButton(
                                       elevation: 10,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(25))),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25),
+                                        ),
+                                      ),
                                       itemBuilder: (context) => [
                                         PopupMenuItem(
                                           child: TextButton(

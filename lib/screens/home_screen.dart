@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 import 'package:water_reminder/widgets/list_screen.dart';
 import 'package:water_reminder/widgets/water_container.dart';
 
@@ -59,48 +61,46 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset("images/img_3.png"),
-                      Container(
-                        width: sWidth * 0.7,
-                        height: 64,
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Color(0xff4FA8C5),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(25),
-                              bottomRight: Radius.circular(25),
-                              bottomLeft: Radius.circular(25)),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Do not drink cold water immediately after hot drinks",
-                            maxLines: 2,
-                            style: TextStyle(color: Colors.white, fontSize: 15),
+                  Container(
+                    height: sHeight * 0.08,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset("images/img_3.png"),
+                        Container(
+                          width: sWidth * 0.7,
+                          padding: EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Color(0xff4FA8C5),
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(25),
+                                bottomRight: Radius.circular(25),
+                                bottomLeft: Radius.circular(25)),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Do not drink cold water immediately after hot drinks",
+                              maxLines: 2,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  SizedBox(height: sHeight * 0.01),
                   WaterContainer(weight, goal),
-                  SizedBox(
-                    height: 5,
-                  ),
+                  SizedBox(height: sHeight * 0.01),
                   Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "You Drank",
-                      )),
-                  SizedBox(
-                    height: 10,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "You Drank",
+                    ),
                   ),
+                  SizedBox(height: sHeight * 0.01),
                   Container(
-                    height: sHeight * 0.33,
+                    height: sHeight * 0.336,
                     child: ListScreenWidget(),
                   ),
                 ],

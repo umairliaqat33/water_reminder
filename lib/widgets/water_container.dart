@@ -56,8 +56,8 @@ class _WaterContainerState extends State<WaterContainer> {
 
   @override
   Widget build(BuildContext context) {
-    double height=MediaQuery.of(context).size.height;
-    double width=MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     print(height);
     print(width);
     return StreamBuilder<QuerySnapshot>(
@@ -77,7 +77,7 @@ class _WaterContainerState extends State<WaterContainer> {
           length = (snapshot.data!.docs.length);
           getSizes();
           return Container(
-            height: height*0.3,
+            height: height * 0.3,
             width: width,
             decoration: BoxDecoration(
               color: Color(0xffF1F7F9),

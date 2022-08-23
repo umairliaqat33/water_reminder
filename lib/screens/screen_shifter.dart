@@ -31,8 +31,12 @@ class _ShifterScreenState extends State<ShifterScreen> {
             IconButton(
               onPressed: () async {
                 FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
                 Fluttertoast.showToast(msg: "Logout Successful");
               },
               icon: Icon(Icons.logout),

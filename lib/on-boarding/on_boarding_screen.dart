@@ -1,9 +1,10 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/models/data_model.dart';
 import 'package:water_reminder/screens/screen_shifter.dart';
@@ -96,9 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             color: Colors.lightBlue),
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
-                    ),
+                    SizedBox(height: 100),
                     Row(
                       children: [
                         Radio(
@@ -111,9 +110,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             log(value.toString());
                           },
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                         Text(
                           "Male",
                           style:
@@ -133,9 +130,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             });
                           },
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                         Text(
                           "Female",
                           style:
@@ -177,9 +172,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             color: Colors.lightBlue),
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
-                    ),
+                    SizedBox(height: 100),
                     Form(
                       key: _weightFormKey,
                       child: TextFormField(
@@ -205,9 +198,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
+                    SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -230,9 +221,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                         Material(
                           color: Colors.lightBlue,
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -271,9 +260,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Text("Sleep Time"),
                     TextFormField(
                       validator: (value) {
@@ -331,9 +318,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             icon: Icon(Icons.timer)),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Material(
                       color: Colors.lightBlue,
                       borderRadius: BorderRadius.all(Radius.circular(30.0)),

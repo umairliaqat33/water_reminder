@@ -1,16 +1,14 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/screens/register_screen.dart';
 import 'package:water_reminder/screens/screen_shifter.dart';
-import 'package:water_reminder/screens/splash_screen.dart';
-
 import '../on-boarding/on_boarding_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -77,9 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -108,9 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 8.0,
-                          ),
+                          SizedBox(height: 8.0),
                           TextFormField(
                             validator: (value) {
                               RegExp regex = RegExp(r"^.{8,}$");
@@ -151,9 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 24.0,
-                          ),
+                          SizedBox(height: 24.0),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
                             child: Material(
@@ -223,7 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
           validate();
           Fluttertoast.showToast(msg: "Login Successful");
         });
-
       } catch (e) {
         sleep(Duration(seconds: 5));
         showSpinner = false;
@@ -240,9 +231,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void validate()async{
+  void validate() async {
     bool dataPresent = false;
-    User? user=FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance
         .collection('user')
         .doc(user!.uid)
@@ -253,12 +244,14 @@ class _LoginScreenState extends State<LoginScreen> {
       dataPresent = value.docs.isEmpty;
     });
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => user == null
-                ? LoginScreen()
-                : dataPresent
+      context,
+      MaterialPageRoute(
+        builder: (context) => user == null
+            ? LoginScreen()
+            : dataPresent
                 ? OnBoardingScreen()
-                : ShifterScreen()));
+                : ShifterScreen(),
+      ),
+    );
   }
 }
