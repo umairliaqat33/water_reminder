@@ -81,7 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               snapshot.data!.docs.first.get("weight").toString();
           intakeController.text =
               snapshot.data!.docs.first.get('waterIntakeGoal').toString();
-          print("state reloaded");
           return Scaffold(
             backgroundColor: Color(0xffC6DFE8),
             body: SingleChildScrollView(
@@ -116,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   Row(
                                     children: [
                                       Radio(
-                                        value: 'Male',
+                                        value: "Male",
                                         groupValue: radioValue,
                                         onChanged: (value) {
                                           setState(() {
@@ -138,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   Row(
                                     children: [
                                       Radio(
-                                        value: 'Female',
+                                        value: "Female",
                                         groupValue: radioValue,
                                         onChanged: (value) {
                                           setState(() {
@@ -246,89 +245,107 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Sleep Time",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Field is required";
-                              }
-                              return null;
+                          StatefulBuilder(
+                            builder: (BuildContext context,
+                                void Function(void Function()) setState) {
+                              return Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Sleep Time",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Field is required";
+                                      }
+                                      return null;
+                                    },
+                                    controller: sleepTimeController,
+                                    readOnly: true,
+                                    textInputAction: TextInputAction.done,
+                                    decoration: textFieldDecoration.copyWith(
+                                      suffixIcon: IconButton(
+                                          onPressed: () async {
+                                            TimeOfDay? newTime =
+                                                await showTimePicker(
+                                                    context: context,
+                                                    initialTime: sleepTime);
+                                            if (newTime == null) return;
+                                            setState(() {
+                                              sleepTime = newTime;
+                                              sleepTimeController.text = newTime
+                                                  .format(context)
+                                                  .toString();
+                                            });
+                                          },
+                                          icon: Icon(Icons.timer)),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Wake Up Time",
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextFormField(
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Field is required";
+                                      }
+                                      return null;
+                                    },
+                                    controller: wakeTimeController,
+                                    readOnly: true,
+                                    textInputAction: TextInputAction.done,
+                                    decoration: textFieldDecoration.copyWith(
+                                      suffixIcon: IconButton(
+                                          onPressed: () async {
+                                            TimeOfDay? newTime =
+                                                await showTimePicker(
+                                                    context: context,
+                                                    initialTime: wakeTime);
+                                            if (newTime == null) return;
+                                            setState(() {
+                                              wakeTime = newTime;
+                                              wakeTimeController.text = newTime
+                                                  .format(context)
+                                                  .toString();
+                                            });
+                                          },
+                                          icon: Icon(Icons.timer)),
+                                    ),
+                                  ),
+                                ],
+                              );
                             },
-                            controller: sleepTimeController,
-                            readOnly: true,
-                            textInputAction: TextInputAction.done,
-                            decoration: textFieldDecoration.copyWith(
-                              suffixIcon: IconButton(
-                                  onPressed: () async {
-                                    TimeOfDay? newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: sleepTime);
-                                    if (newTime == null) return;
-                                    setState(() {
-                                      sleepTime = newTime;
-                                      sleepTimeController.text =
-                                          newTime.format(context).toString();
-                                    });
-                                  },
-                                  icon: Icon(Icons.timer)),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Wake Up Time",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Field is required";
-                              }
-                              return null;
-                            },
-                            controller: wakeTimeController,
-                            readOnly: true,
-                            textInputAction: TextInputAction.done,
-                            decoration: textFieldDecoration.copyWith(
-                              suffixIcon: IconButton(
-                                  onPressed: () async {
-                                    TimeOfDay? newTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: wakeTime);
-                                    if (newTime == null) return;
-                                    setState(() {
-                                      wakeTime = newTime;
-                                      wakeTimeController.text =
-                                          newTime.format(context).toString();
-                                    });
-                                  },
-                                  icon: Icon(Icons.timer)),
-                            ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
                                     builder: (context) => ReminderScheduler(
-                                        wakeTime, sleepTime)));
+                                      TimeConverter(wakeTime),
+                                      TimeConverter(sleepTime),
+                                    ),
+                                  ),
+                                );
                               },
                               child: Text(
                                 "Schedule Reminders",

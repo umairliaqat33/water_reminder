@@ -265,7 +265,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       setState(() {
         showSpinner = true;
       });
-      sleep(const Duration(seconds: 5));
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {

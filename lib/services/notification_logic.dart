@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:water_reminder/models/water_model.dart';
 
 import '../screens/screen_shifter.dart';
 
@@ -19,13 +22,28 @@ class NotificationLogic {
     );
   }
 
-  static Future init(BuildContext context) async {
+  static Future init(BuildContext context,String uid) async {
     tz.initializeTimeZones();
     final android = AndroidInitializationSettings('img_3');
     final settings = InitializationSettings(android: android);
     await _notifications.initialize(settings, onSelectNotification: (payload) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ShifterScreen()));
+      try {
+        WaterModel waterModel = WaterModel();
+        waterModel.time = Timestamp.fromDate(DateTime.now());
+        waterModel.millLiters = 200;
+        FirebaseFirestore.instance
+            .collection('user')
+            .doc(uid)
+            .collection('water-model')
+            .doc()
+            .set(waterModel.toMap());
+        Fluttertoast.showToast(msg: "Addition Successful");
+      } catch (e) {
+        Fluttertoast.showToast(msg: e.toString());
+        print(e);
+      }
       onNotifications.add(payload);
     });
   }
@@ -49,6 +67,7 @@ class NotificationLogic {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
+      matchDateTimeComponents: DateTimeComponents.time,
     );
   }
 }

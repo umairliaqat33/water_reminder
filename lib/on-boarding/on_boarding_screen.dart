@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:water_reminder/models/constants.dart';
 import 'package:water_reminder/models/data_model.dart';
 import 'package:water_reminder/screens/screen_shifter.dart';
@@ -27,8 +27,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   TimeOfDay wakeTime = TimeOfDay.now();
   final _weightFormKey = GlobalKey<FormState>();
   bool errorMessage = false;
-
+  bool timeError = false;
+  final finalKey = GlobalKey<FormState>();
   User? user;
+
 
   postUserDetailsToFireStore(String gender, int weight, TimeOfDay sleepTime,
       TimeOfDay wakeTime) async {
@@ -247,111 +249,127 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Visibility(
-                      visible: errorMessage,
-                      child: Text(
-                        "Something went wrong check all fields or try again in some time",
-                        style: TextStyle(
-                          color: Colors.red,
+                Form(
+                  key: finalKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Visibility(
+                        visible: timeError,
+                        child: Text(
+                          "Sleep and wake time can not be same",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text("Sleep Time"),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == "--:-- --") {
-                          return "Field is required";
-                        }
-                        return null;
-                      },
-                      controller: sleepTimeController,
-                      cursorColor: Colors.purple,
-                      readOnly: true,
-                      textInputAction: TextInputAction.done,
-                      decoration: textFieldDecoration.copyWith(
-                        suffixIcon: IconButton(
-                            onPressed: () async {
-                              TimeOfDay? newTime = await showTimePicker(
-                                  context: context, initialTime: sleepTime);
-                              if (newTime == null) return;
-                              setState(() {
-                                sleepTime = newTime;
-                                sleepTimeController.text =
-                                    newTime.format(context).toString();
-                              });
-                            },
-                            icon: Icon(Icons.timer)),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Wake Up Time"),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == "--:-- --") {
-                          return "Field is required";
-                        }
-                        return null;
-                      },
-                      cursorColor: Colors.purple,
-                      controller: wakeTimeController,
-                      readOnly: true,
-                      textInputAction: TextInputAction.done,
-                      decoration: textFieldDecoration.copyWith(
-                        suffixIcon: IconButton(
-                            onPressed: () async {
-                              TimeOfDay? newTime = await showTimePicker(
-                                  context: context, initialTime: wakeTime);
-                              if (newTime == null) return;
-                              setState(() {
-                                wakeTime = newTime;
-                                wakeTimeController.text =
-                                    newTime.format(context).toString();
-                              });
-                            },
-                            icon: Icon(Icons.timer)),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Material(
-                      color: Colors.lightBlue,
-                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      elevation: 5.0,
-                      child: MaterialButton(
-                        onPressed: () {
-                          postUserDetailsToFireStore(
-                              radioValue,
-                              int.parse(weightController.text),
-                              sleepTime,
-                              wakeTime);
+                      SizedBox(height: 10),
+                      Text("Sleep Time"),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == "--:-- --") {
+                            return "Please select a time";
+                          }
+                          return null;
                         },
-                        minWidth: 135.0,
-                        height: 42.0,
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Text(
-                              'Done',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                            )
-                          ],
+                        controller: sleepTimeController,
+                        cursorColor: Colors.purple,
+                        readOnly: true,
+                        textInputAction: TextInputAction.done,
+                        decoration: textFieldDecoration.copyWith(
+                          suffixIcon: IconButton(
+                              onPressed: () async {
+                                TimeOfDay? newTime = await showTimePicker(
+                                    context: context, initialTime: sleepTime);
+                                if (newTime == null) return;
+                                setState(() {
+                                  sleepTime = newTime;
+                                  sleepTimeController.text =
+                                      newTime.format(context).toString();
+                                });
+                              },
+                              icon: Icon(Icons.timer)),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Wake Up Time"),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == "--:-- --") {
+                            return "Please select a time";
+                          }
+                          return null;
+                        },
+                        cursorColor: Colors.purple,
+                        controller: wakeTimeController,
+                        readOnly: true,
+                        textInputAction: TextInputAction.done,
+                        decoration: textFieldDecoration.copyWith(
+                          suffixIcon: IconButton(
+                              onPressed: () async {
+                                TimeOfDay? newTime = await showTimePicker(
+                                    context: context, initialTime: wakeTime);
+                                if (newTime == null) return;
+                                setState(() {
+                                  wakeTime = newTime;
+                                  wakeTimeController.text =
+                                      newTime.format(context).toString();
+                                });
+                              },
+                              icon: Icon(Icons.timer)),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Material(
+                        color: Colors.lightBlue,
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        elevation: 5.0,
+                        child: MaterialButton(
+                          onPressed: () {
+                            if (finalKey.currentState!.validate()) {
+                              if (TimeConverter(sleepTime)
+                                  .isAtSameMomentAs(TimeConverter(wakeTime))) {
+                                setState(() {
+                                  timeError = true;
+                                });
+                              } else {
+                                postUserDetailsToFireStore(
+                                    radioValue,
+                                    int.parse(weightController.text),
+                                    sleepTime,
+                                    wakeTime);
+
+                                setState(() {
+                                  timeError = false;
+                                });
+                              }
+                            }
+                          },
+                          minWidth: 135.0,
+                          height: 42.0,
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(
+                                'Done',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

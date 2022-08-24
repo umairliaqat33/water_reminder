@@ -1,19 +1,19 @@
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+
 import 'package:water_reminder/screens/screen_shifter.dart';
-import 'package:water_reminder/services/local_notification_services.dart';
+import 'package:water_reminder/services/notification_logic.dart';
 import 'package:water_reminder/widgets/reminder_delete_dialogue.dart';
 import 'package:water_reminder/widgets/switch.dart';
-
-import '../widgets/add_alert_dialogue.dart';
+import 'package:water_reminder/widgets/add_alert_dialogue.dart';
 
 class ReminderScheduler extends StatefulWidget {
-  final TimeOfDay sleepTime;
-  final TimeOfDay wakeTime;
+  final DateTime sleepTime;
+  final DateTime wakeTime;
 
   ReminderScheduler(this.wakeTime, this.sleepTime);
 
@@ -28,7 +28,7 @@ class _ReminderSchedulerState extends State<ReminderScheduler> {
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
-    NotificationLogic.init(context);
+    NotificationLogic.init(context,user!.uid);
     listenNotifications();
   }
 

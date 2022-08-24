@@ -31,3 +31,7 @@ const textFieldDecoration = InputDecoration(
     ),
   ),
 );
+
+DateTime TimeConverter(TimeOfDay time){
+  return DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day,time.hour,time.minute);
+}
