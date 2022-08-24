@@ -30,7 +30,6 @@ class _ShifterScreenState extends State<ShifterScreen> {
             IconButton(
               onPressed: () async {
                 creatingSignOutAlertDialog(context);
-                Fluttertoast.showToast(msg: "Logout Successful");
               },
               icon: Icon(Icons.logout),
             ),
